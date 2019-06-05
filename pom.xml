@@ -10,11 +10,50 @@
 	<name>sendcloud-sdk-java</name>
 	<url>https://www.sendcloud.net</url>
 	<description>
-			SendCloud openapi SDK for Java Copyright © 2019 武汉闪达 All rights reserved. 版权所有 （C）武汉闪达 https://www.sendcloud.net/
+		SendCloud openapi SDK for Java
+
+		Copyright © 2019 武汉闪达
+		All rights reserved.
+
+		版权所有 （C）武汉闪达
+
+		https://www.sendcloud.net/
 	</description>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>9</version>
+	</parent>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>sendcloud</name>
+			<email>service@sendcloud.im</email>
+		</developer>
+	</developers>
+	<scm>
+		<tag>master</tag>
+		<connection>scm:git:https://github.com/sendcloud2013/sendcloud-sdk-java.git</connection>
+		<developerConnection>scm:git:https://github.com/sendcloud2013/sendcloud-sdk-java.git</developerConnection>
+		<url>https://github.com/sendcloud2013/sendcloud-sdk-java</url>
+	</scm>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<dependencies>
 		<dependency>

@@ -40,7 +40,7 @@ public class Md5Util {
 	 * 将byte转换为字符串
 	 * 
 	 * @param byteArray
-	 * @return
+	 * @return 字符串
 	 */
 	private static String bytes2Hex(byte[] byteArray) {
 		StringBuffer strBuf = new StringBuffer();
@@ -60,6 +60,7 @@ public class Md5Util {
 	 *            传给服务器的参数
 	 * @param secret
 	 *            首尾放secret
+	 * @return 字符串
 	 */
 	public static String md5Signature(TreeMap<String, String> params, String secret) {
 		String result = null;
@@ -83,7 +84,7 @@ public class Md5Util {
 	 *            待连接的字符串
 	 * @param secret
 	 *            首尾添加的字符串
-	 * @return
+	 * @return 加密字符串
 	 */
 	public static String getOrginSign(TreeMap<String, String> params, String secret) {
 		if (params == null)

@@ -189,11 +189,10 @@ public class SendCloud {
 
 	/**
 	 * 发送邮件
-	 * 
-	 * @param credential
-	 *            身份认证
+	 *
 	 * @param mail
 	 *            邮件
+	 * @return 发送结果
 	 */
 	public ResponseData sendMail(SendCloudMail mail) throws Throwable {
 		Asserts.notNull(mail, "mail");
@@ -361,10 +360,9 @@ public class SendCloud {
 
 	/**
 	 * 发送短信
-	 * 
-	 * @param credential
+	 *
 	 * @param sms
-	 * @return
+	 * @return 发送结果
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 * @throws SmsException
@@ -400,10 +398,9 @@ public class SendCloud {
 
 	/**
 	 * 发送语音
-	 * 
-	 * @param credential
+	 *
 	 * @param voice
-	 * @return
+	 * @return 发送结果
 	 * @throws VoiceException
 	 * @throws ParseException
 	 * @throws IOException

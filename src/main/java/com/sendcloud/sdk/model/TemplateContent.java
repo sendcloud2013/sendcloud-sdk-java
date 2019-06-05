@@ -37,11 +37,7 @@ public class TemplateContent implements Content {
 		return templateInvokeName;
 	}
 
-	/**
-	 * 设置模版名称
-	 * 
-	 * @param templateInvokeName
-	 */
+
 	public void setTemplateInvokeName(String templateInvokeName) {
 		this.templateInvokeName = templateInvokeName;
 	}
