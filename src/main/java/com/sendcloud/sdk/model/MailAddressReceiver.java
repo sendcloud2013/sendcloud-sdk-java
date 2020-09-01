@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-
-import com.sendcloud.sdk.config.Config;
+import com.sendcloud.sdk.config.SendcloudConfig;
 import com.sendcloud.sdk.exception.ReceiverException;
 
 /**
  * 邮件地址收件人
- * 
+ *
  * @author SendCloud
  *
  */
@@ -79,14 +77,14 @@ public class MailAddressReceiver implements Receiver {
 	}
 
 	public boolean validate() throws ReceiverException {
-		if (CollectionUtils.isEmpty(to))
+		if (to == null || to.size() == 0)
 			throw new ReceiverException("收件人为空");
 		int receivers = to.size();
-		if (CollectionUtils.isNotEmpty(cc))
+		if (cc != null && cc.size() > 0)
 			receivers += cc.size();
-		if (CollectionUtils.isNotEmpty(bcc))
+		if (bcc != null && bcc.size() > 0)
 			receivers += bcc.size();
-		if (receivers > Config.MAX_RECEIVERS)
+		if (receivers > SendcloudConfig.MAX_RECEIVERS)
 			throw new ReceiverException("收件人超出上限");
 		return true;
 	}
@@ -102,7 +100,7 @@ public class MailAddressReceiver implements Receiver {
 	}
 
 	public String getCcString() {
-		if (CollectionUtils.isEmpty(cc))
+		if (cc == null || cc.size() == 0)
 			return null;
 		StringBuilder sb = new StringBuilder();
 		for (String address : cc) {
@@ -114,7 +112,7 @@ public class MailAddressReceiver implements Receiver {
 	}
 
 	public String getBccString() {
-		if (CollectionUtils.isEmpty(bcc))
+		if (bcc == null || bcc.size() == 0)
 			return null;
 		StringBuilder sb = new StringBuilder();
 		for (String address : bcc) {

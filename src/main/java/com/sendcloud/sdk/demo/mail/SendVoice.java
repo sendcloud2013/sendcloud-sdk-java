@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.apache.http.ParseException;
 
 import com.sendcloud.sdk.builder.SendCloudBuilder;
+import com.sendcloud.sdk.config.Credential;
+import com.sendcloud.sdk.config.SendcloudConfig;
 import com.sendcloud.sdk.core.SendCloud;
 import com.sendcloud.sdk.exception.VoiceException;
 import com.sendcloud.sdk.model.SendCloudVoice;
@@ -18,7 +20,8 @@ public class SendVoice {
 		voice.setPhone("12345678910;12345678911");
 
 		SendCloud sc = SendCloudBuilder.build();
-		ResponseData res = sc.sendVoice(voice);
+		Credential credential = new Credential(SendcloudConfig.getApi_user_cn(), SendcloudConfig.getApi_key_cn());
+		ResponseData res = sc.sendVoice(voice, credential);
 
 		System.out.println(res.getResult());
 		System.out.println(res.getStatusCode());

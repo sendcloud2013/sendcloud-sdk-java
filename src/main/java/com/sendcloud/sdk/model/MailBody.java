@@ -7,11 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.codec.binary.StringUtils;
+import org.json.JSONObject;
 
 import com.sendcloud.sdk.exception.BodyException;
-
-import net.sf.json.JSONObject;
 
 /**
  * 邮件主体，包含发件人、主题以及头部、扩展字段
@@ -28,7 +27,7 @@ import net.sf.json.JSONObject;
  * <LI><B>xsmtpapi</B> 扩展字段，非必须
  * </OL>
  * <P>
- * 
+ *
  * @author Administrator
  *
  */
@@ -66,16 +65,26 @@ public class MailBody {
 	 * <pre>
 	 * SMTP 扩展字段 X-SMTPAPI 是 SendCloud 为开发者提供的邮件个性化定制的处理方式, 开发者通过这个特殊的 信头扩展字段,
 	 * 可以设置邮件处理方式的很多参数.
-	 * 
+	 *
 	 * SMTP 调用时, 开发者可以在邮件中自行插入各种头域信息, 这是 SMTP 协议所允许的. 而 SendCloud 会检索 key 为
 	 * X-SMTPAPI 的头域信息, 如果发现含有此头域, 则其 value 的值可以被解析, 用来改变邮件的处理方式.
 	 * </pre>
 	 */
 	private Map<String, Object> xsmtpapi;
 
+	private MailCalendar mailCalendar;
+
+	public MailCalendar getMailCalendar() {
+		return mailCalendar;
+	}
+
+	public void setMailCalendar(MailCalendar mailCalendar) {
+		this.mailCalendar = mailCalendar;
+	}
+
 	/**
 	 * 添加邮件头部信息
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 */
@@ -87,7 +96,7 @@ public class MailBody {
 
 	/**
 	 * 添加附件
-	 * 
+	 *
 	 * @param file
 	 */
 	public void addAttachments(File file) {
@@ -98,7 +107,7 @@ public class MailBody {
 
 	/**
 	 * 添加附件
-	 * 
+	 *
 	 * @param stream
 	 * @param name
 	 */
@@ -110,7 +119,7 @@ public class MailBody {
 
 	/**
 	 * 添加xsmtpapi
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 */
@@ -121,7 +130,7 @@ public class MailBody {
 	}
 
 	public String getXsmtpapiString() {
-		return JSONObject.fromObject(xsmtpapi).toString();
+		return new JSONObject(xsmtpapi).toString();
 	}
 
 	public Map<String, String> getHeaders() {
@@ -129,7 +138,7 @@ public class MailBody {
 	}
 
 	public String getHeadersString() {
-		return JSONObject.fromObject(headers).toString();
+		return new JSONObject(headers).toString();
 	}
 
 	public String getFrom() {
@@ -138,7 +147,7 @@ public class MailBody {
 
 	/**
 	 * 设置发件人
-	 * 
+	 *
 	 * @param from
 	 *            <p>
 	 *            格式：support@ifaxin.com, 爱发信支持&lt;support@ifaxin.com&gt;
@@ -196,10 +205,12 @@ public class MailBody {
 	 * 验证邮件是否完整
 	 */
 	public boolean validate() throws BodyException {
-		if (StringUtils.isBlank(from))
+		if (from == null || from.equals(""))
 			throw new BodyException("发件人为空");
-		if (StringUtils.isBlank(subject))
+		if (subject == null || subject.equals(""))
 			throw new BodyException("邮件主题为空");
+		if (mailCalendar != null && !mailCalendar.validate())
+			throw new BodyException("发送会议日历数据不完整");
 		return true;
 	}
 }

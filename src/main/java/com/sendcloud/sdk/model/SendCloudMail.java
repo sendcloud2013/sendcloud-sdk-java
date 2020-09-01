@@ -12,7 +12,7 @@ import org.apache.http.util.Asserts;
  * <LI><B>to</B> 收件人，非必须(可以在xsmtpapi中添加)
  * </OL>
  * <P>
- * 
+ *
  * @author Administrator
  *
  */
@@ -50,7 +50,11 @@ public class SendCloudMail {
 		body.validate();
 		Asserts.notNull(content, "content");
 		content.validate();
-		if (to != null)
+		Asserts.check(body.getMailCalendar() == null || !content.useTemplate(), "发送会议日历不支持邮件模版");
+		if (to != null) {
 			to.validate();
+			Asserts.check(body.getMailCalendar() == null || !to.useAddressList(), "发送会议日历不支持地址列表");
+		}
+
 	}
 }

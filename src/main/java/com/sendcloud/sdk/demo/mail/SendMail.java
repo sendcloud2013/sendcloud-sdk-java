@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.sendcloud.sdk.builder.SendCloudBuilder;
+import com.sendcloud.sdk.config.Credential;
+import com.sendcloud.sdk.config.Region;
+import com.sendcloud.sdk.config.SendcloudConfig;
 import com.sendcloud.sdk.core.SendCloud;
 import com.sendcloud.sdk.model.AddressListReceiver;
 import com.sendcloud.sdk.model.MailAddressReceiver;
@@ -53,7 +56,8 @@ public class SendMail {
 		mail.setContent(content);
 
 		SendCloud sc = SendCloudBuilder.build();
-		ResponseData res = sc.sendMail(mail);
+		Credential credential = new Credential(SendcloudConfig.getApi_user_cn(), SendcloudConfig.getApi_key_cn());
+		ResponseData res = sc.sendMail(mail, credential, Region.CN);
 		System.out.println(res.getResult());
 		System.out.println(res.getStatusCode());
 		System.out.println(res.getMessage());
@@ -110,7 +114,8 @@ public class SendMail {
 		mail.setContent(content);
 
 		SendCloud sc = SendCloudBuilder.build();
-		ResponseData res = sc.sendMail(mail);
+		Credential credential = new Credential(SendcloudConfig.getApi_user_cn(), SendcloudConfig.getApi_key_cn());
+		ResponseData res = sc.sendMail(mail, credential, Region.CN);
 		System.out.println(res.getResult());
 		System.out.println(res.getStatusCode());
 		System.out.println(res.getMessage());
@@ -158,7 +163,8 @@ public class SendMail {
 		mail.setContent(content);
 
 		SendCloud sc = SendCloudBuilder.build();
-		ResponseData res = sc.sendMail(mail);
+		Credential credential = new Credential(SendcloudConfig.getApi_user_cn(), SendcloudConfig.getApi_key_cn());
+		ResponseData res = sc.sendMail(mail, credential, Region.CN);
 		System.out.println(res.getResult());
 		System.out.println(res.getStatusCode());
 		System.out.println(res.getMessage());
@@ -192,7 +198,8 @@ public class SendMail {
 		mail.setContent(content);
 
 		SendCloud sc = SendCloudBuilder.build();
-		ResponseData res = sc.sendMail(mail);
+		Credential credential = new Credential(SendcloudConfig.getApi_user_cn(), SendcloudConfig.getApi_key_cn());
+		ResponseData res = sc.sendMail(mail, credential, Region.CN);
 		System.out.println(res);
 	}
 

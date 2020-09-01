@@ -2,6 +2,7 @@ package com.sendcloud.sdk.config;
 
 /**
  * 发件身份认证
+ *
  * @author Administrator
  *
  */

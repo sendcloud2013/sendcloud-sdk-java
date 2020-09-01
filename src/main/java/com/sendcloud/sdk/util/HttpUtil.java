@@ -7,9 +7,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.net.ssl.SSLContext;
 
+import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -29,9 +31,8 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
-
-import net.sf.json.JSONObject;
-import net.sf.json.util.JSONUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class HttpUtil {
 
@@ -58,17 +59,39 @@ public class HttpUtil {
 		connManager.setMaxTotal(1000);
 		connManager.setDefaultMaxPerRoute(100);
 		connManager.setValidateAfterInactivity(2000);
-		int connection_timeout = 10000;
-		int so_timeout = 10000;
+		int connection_timeout = 30000;
+		int so_timeout = 30000;
 		RequestConfig config = RequestConfig.custom().setSocketTimeout(so_timeout)
 				.setConnectionRequestTimeout(connection_timeout).setConnectTimeout(connection_timeout)
 				.setCookieSpec(CookieSpecs.IGNORE_COOKIES).build();
 		httpClient = HttpClients.custom().setConnectionManager(connManager).setDefaultRequestConfig(config)
-				.setDefaultHeaders(Arrays.asList(
-						new BasicHeader("User-Agent",
-								"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36"),
-						new BasicHeader("charset", "utf-8"), new BasicHeader("Connection", "close")))
-				.build();
+				.setDefaultHeaders(Arrays.asList(new BasicHeader("charset", "utf-8"))).build();
+	}
+
+	/**
+	 * 设置超时时间
+	 *
+	 * @param connectionTimeOut
+	 * @param socketTimeout
+	 */
+	public static void setTimeOut(int connectionTimeOut, int socketTimeout) {
+		destroy();
+		RequestConfig config = RequestConfig.custom().setSocketTimeout(socketTimeout)
+				.setConnectionRequestTimeout(connectionTimeOut).setConnectTimeout(connectionTimeOut)
+				.setCookieSpec(CookieSpecs.IGNORE_COOKIES).build();
+		httpClient = HttpClients.custom().setConnectionManager(connManager).setDefaultRequestConfig(config)
+				.setDefaultHeaders(Arrays.asList(new BasicHeader("charset", "utf-8"))).build();
+	}
+
+	/**
+	 * 自定义RequestConfig和Header
+	 *
+	 * @param config
+	 */
+	public static void rebuild(RequestConfig config, List<Header> headers) {
+		destroy();
+		httpClient = HttpClients.custom().setConnectionManager(connManager).setDefaultRequestConfig(config)
+				.setDefaultHeaders(headers).build();
 	}
 
 	public static ResponseData post(HttpPost httpPost) throws ClientProtocolException, IOException {
@@ -102,9 +125,9 @@ public class HttpUtil {
 		ResponseData result = new ResponseData();
 		if (response != null && response.getEntity() != null) {
 			String s = EntityUtils.toString(response.getEntity());
-			if (JSONUtils.mayBeJSON(s)) {
-				JSONObject json = JSONObject.fromObject(s);
-				if (json.containsKey("statusCode")) {
+			try {
+				JSONObject json = new JSONObject(s);
+				if (json.has("statusCode")) {
 					result.setStatusCode(json.getInt("statusCode"));
 					result.setMessage(json.getString("message"));
 					result.setResult(json.getBoolean("result"));
@@ -113,7 +136,8 @@ public class HttpUtil {
 					result.setStatusCode(500);
 					result.setMessage(json.toString());
 				}
-			} else {
+			} catch (JSONException e) {
+				e.printStackTrace();
 				result.setStatusCode(response.getStatusLine().getStatusCode());
 				result.setMessage("发送失败");
 				result.setResult(false);

@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-
-import com.sendcloud.sdk.config.Config;
+import com.sendcloud.sdk.config.SendcloudConfig;
 import com.sendcloud.sdk.exception.ReceiverException;
 
 /**
  * 邮件列表收件人
- * 
+ *
  * @author SendCloud
  *
  */
@@ -32,7 +30,7 @@ public class AddressListReceiver implements Receiver {
 
 	/**
 	 * 增加地址列表的调用名称
-	 * 
+	 *
 	 * @param to
 	 */
 	public void addTo(String to) {
@@ -40,9 +38,9 @@ public class AddressListReceiver implements Receiver {
 	}
 
 	public boolean validate() throws ReceiverException {
-		if (CollectionUtils.isEmpty(invokeNames))
+		if (invokeNames == null || invokeNames.size() == 0)
 			throw new ReceiverException("地址列表为空");
-		if (invokeNames.size() > Config.MAX_MAILLIST)
+		if (invokeNames.size() > SendcloudConfig.MAX_MAILLIST)
 			throw new ReceiverException("地址列表超过上限");
 		return true;
 	}

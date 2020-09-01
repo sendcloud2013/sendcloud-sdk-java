@@ -1,6 +1,6 @@
 package com.sendcloud.sdk.util;
 
-import net.sf.json.JSONObject;
+import org.json.JSONObject;
 
 public class ResponseData {
 
@@ -10,7 +10,7 @@ public class ResponseData {
 	public String info;
 
 	public String toString() {
-		return JSONObject.fromObject(this).toString();
+		return new JSONObject(this).toString();
 	}
 
 	public String getMessage() {

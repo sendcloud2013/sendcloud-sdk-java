@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.apache.http.client.ClientProtocolException;
 
 import com.sendcloud.sdk.builder.SendCloudBuilder;
+import com.sendcloud.sdk.config.Credential;
+import com.sendcloud.sdk.config.SendcloudConfig;
 import com.sendcloud.sdk.core.SendCloud;
 import com.sendcloud.sdk.exception.SmsException;
 import com.sendcloud.sdk.model.SendCloudSms;
@@ -21,7 +23,8 @@ public class SendSMS {
 		sms.addVars("date", "2016.04.02");
 
 		SendCloud sc = SendCloudBuilder.build();
-		ResponseData res = sc.sendSms(sms);
+		Credential credential = new Credential(SendcloudConfig.getApi_user_cn(), SendcloudConfig.getApi_key_cn());
+		ResponseData res = sc.sendSms(sms, credential);
 
 		System.out.println(res.getResult());
 		System.out.println(res.getStatusCode());

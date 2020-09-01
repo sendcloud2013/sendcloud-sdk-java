@@ -8,13 +8,13 @@ import java.util.TreeMap;
 
 /**
  * MD5校验码生成工具
- * 
+ *
  */
 public class Md5Util {
 
 	/**
 	 * 生成md5校验码
-	 * 
+	 *
 	 * @param srcContent
 	 *            需要加密的数据
 	 * @return 加密后的md5校验码。出错则返回null。
@@ -38,7 +38,7 @@ public class Md5Util {
 
 	/**
 	 * 将byte转换为字符串
-	 * 
+	 *
 	 * @param byteArray
 	 * @return 字符串
 	 */
@@ -55,7 +55,7 @@ public class Md5Util {
 
 	/**
 	 * 新的md5签名，首尾放secret。
-	 * 
+	 *
 	 * @param params
 	 *            传给服务器的参数
 	 * @param secret
@@ -79,7 +79,7 @@ public class Md5Util {
 
 	/**
 	 * 将params进行连接，并在首尾添加字符串orgin
-	 * 
+	 *
 	 * @param params
 	 *            待连接的字符串
 	 * @param secret

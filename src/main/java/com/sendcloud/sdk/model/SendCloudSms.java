@@ -5,14 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
 import org.apache.http.util.Asserts;
+import org.json.JSONObject;
 
-import com.sendcloud.sdk.config.Config;
+import com.sendcloud.sdk.config.SendcloudConfig;
 import com.sendcloud.sdk.exception.SmsException;
-
-import net.sf.json.JSONObject;
 
 public class SendCloudSms {
 	public Integer templateId;
@@ -57,18 +54,18 @@ public class SendCloudSms {
 
 	public String getVarsString() {
 		Asserts.notNull(vars, "vars");
-		return JSONObject.fromObject(vars).toString();
+		return new JSONObject(vars).toString();
 	}
 
 	public void addPhone(String mobile) {
-		if (CollectionUtils.isEmpty(phone)) {
+		if (phone == null) {
 			phone = new ArrayList<String>();
 		}
 		phone.add(mobile);
 	}
 
 	public void addVars(String key, String value) {
-		if (MapUtils.isEmpty(vars)) {
+		if (vars == null) {
 			vars = new HashMap<String, String>();
 		}
 		vars.put(key, value);
@@ -77,9 +74,9 @@ public class SendCloudSms {
 	public boolean validate() throws SmsException {
 		if (templateId == null)
 			throw new SmsException("模版为空");
-		if (CollectionUtils.isEmpty(phone))
+		if (phone == null || phone.size() == 0)
 			throw new SmsException("收信人为空");
-		if (phone.size() > Config.MAX_RECEIVERS)
+		if (phone.size() > SendcloudConfig.MAX_RECEIVERS)
 			throw new SmsException("收信人超过限制");
 		return true;
 	}

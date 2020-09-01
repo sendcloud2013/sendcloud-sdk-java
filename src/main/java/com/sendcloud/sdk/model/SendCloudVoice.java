@@ -1,7 +1,5 @@
 package com.sendcloud.sdk.model;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.sendcloud.sdk.exception.VoiceException;
 
 public class SendCloudVoice {
@@ -26,9 +24,9 @@ public class SendCloudVoice {
 	}
 
 	public boolean validate() throws VoiceException {
-		if (StringUtils.isEmpty(phone))
+		if (phone == null || phone.equals(""))
 			throw new VoiceException("收信人为空");
-		if (StringUtils.isEmpty(code))
+		if (code == null || code.equals(""))
 			throw new VoiceException("验证码为空");
 		return true;
 

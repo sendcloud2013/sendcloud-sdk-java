@@ -1,17 +1,15 @@
 package com.sendcloud.sdk.model;
 
-import org.apache.commons.lang.StringUtils;
-
-import com.sendcloud.sdk.config.Config;
+import com.sendcloud.sdk.config.SendcloudConfig;
 import com.sendcloud.sdk.exception.ContentException;
 
 /**
  * 文本格式邮件内容
- * 
+ *
  * <pre>
  * 需要设置text与content_type
  * </pre>
- * 
+ *
  * @author SendCloud
  *
  */
@@ -32,7 +30,7 @@ public class TextContent implements Content {
 	/**
 	 * <pre>
 	 * 邮件格式：text/html或者text/plain
-	 * 
+	 *
 	 * 默认text/html
 	 * </pre>
 	 */
@@ -56,7 +54,7 @@ public class TextContent implements Content {
 
 	/**
 	 * 邮件格式：text/html或者text/plain
-	 * 
+	 *
 	 * @param content_type
 	 */
 	public void setContent_type(ScContentType content_type) {
@@ -64,9 +62,9 @@ public class TextContent implements Content {
 	}
 
 	public boolean validate() throws ContentException {
-		if (StringUtils.isBlank(text))
+		if (text == null || text.equals(""))
 			throw new ContentException("邮件内容为空");
-		if (text.length() > Config.MAX_CONTENT_SIZE)
+		if (text.length() > SendcloudConfig.MAX_CONTENT_SIZE)
 			throw new ContentException("邮件内容过长");
 		return true;
 	}
